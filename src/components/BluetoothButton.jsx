@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 
-function BluetoothScreen() {
+function BluetoothButton() {
   const [device, setDevice] = useState(null);
 
+  /* Method for connecting to a device */
   const connectToDevice = async () => {
     try {
       const options = { filters: [{ services: ['battery_service'] }] };
@@ -19,14 +20,10 @@ function BluetoothScreen() {
   };
 
   return (
-    <div>
-      {device ? (
-        <p>Connected to {device.name}</p>
-      ) : (
-        <button onClick={connectToDevice}>Connect to Bluetooth</button>
-      )}
-    </div>
+    <button onClick={connectToDevice}>
+      {device ? 'Connected' : 'Connect to Bluetooth'}
+    </button>
   );
 }
 
-export default BluetoothScreen;
+export default BluetoothButton;
