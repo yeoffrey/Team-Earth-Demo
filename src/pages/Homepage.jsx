@@ -1,5 +1,8 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import BluetoothButton from "../components/BluetoothButton";
+import Profile from "../components/Profile";
+import Room from "../components/Room";
 
 /* Information for needed for Spotify API */
 const CLIENT_ID = "01215731001a401abc7df88bba52c0d6";
@@ -9,35 +12,20 @@ const RESPONSE_TYPE = "token";
 
 export default function Homepage() {
   const [token, setToken] = useState("");
-  const [artists, setArtists] = useState([]);
-  const [searchKey, setSearchKey] = useState("");
+  const [user, setUser] = useState("");
+  const [playlists, setPlaylists] = useState("");
 
-  const searchArtists = async (e) => {
+  const getUser = async (e) => {
     e.preventDefault();
-    const { data } = await axios.get("https://api.spotify.com/v1/search", {
+
+    const { data } = await axios.get("https://api.spotify.com/v1/me", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-      params: {
-        q: searchKey,
-        type: "artist",
-      },
     });
 
-    setArtists(data.artists.items);
-  };
-
-  const renderArtists = () => {
-    return artists.map((artist) => (
-      <div key={artist.id}>
-        {artist.images.length ? (
-          <img width={"100%"} src={artist.images[0].url} alt="" />
-        ) : (
-          <div>No Image</div>
-        )}
-        {artist.name}
-      </div>
-    ));
+    console.log(data);
+    setUser(data);
   };
 
   /*Method for getting access token*/
@@ -65,22 +53,62 @@ export default function Homepage() {
     window.localStorage.removeItem("token");
   };
 
+  // <form onSubmit={searchArtists}>
+  //    <input type="text" onChange={(e) => setSearchKey(e.target.value)} />
+  //    <button type={"submit"}>Search</button>
+  // </form>
+
+  const handleRoom = async (e) => {
+    e.preventDefault();
+
+    const { data } = await axios.get("https://api.spotify.com/v1/me/playlists", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      params: {
+        limit: 3,
+      }
+    });
+
+    console.log(data);
+    setPlaylists(data);
+  };
+
   return (
     <div className="container">
-      <form onSubmit={searchArtists}>
-        <input type="text" onChange={(e) => setSearchKey(e.target.value)} />
-        <button type={"submit"}>Search</button>
-      </form>
-      {renderArtists()}
-      {!token ? (
-        <a
-          href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}
-        >
-          Login to Spotify
-        </a>
-      ) : (
-        <button onClick={logout}>Log out of Spotify</button>
-      )}
+      <h1>Hexisense</h1>
+      <p>Spotify IoT automation made easy.</p>
+      <div className="text-center mx-auto">{token && <BluetoothButton />}</div>
+      <div className="text-center mx-auto p-3">
+        {token && (
+          <button className="btn btn-primary p-3" onClick={(e) => getUser(e)}>
+            Profile
+          </button>
+        )}
+        {user && <Profile name={user.display_name} pic={user.images[0].url} />}
+      </div>
+      <div className="text-center mx-auto p-3">
+        {!token ? (
+          <a
+            className="btn btn-primary mx-auto"
+            href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}
+          >
+            Login to Spotify
+          </a>
+        ) : (
+          <button className="btn btn-danger" onClick={logout}>
+            Log out of Spotify
+          </button>
+        )}
+      </div>
+      <div className="text-center mx-auto p-3">
+        {token && (
+          <button className="btn btn-warning" onClick={(e) => handleRoom(e)}>
+            Ubicomp Room
+          </button>
+        )}
+        {playlists && <Room name="Unicomp Room" playlists={playlists.items} />}
+      </div>
     </div>
   );
 }
