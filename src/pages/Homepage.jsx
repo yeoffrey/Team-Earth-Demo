@@ -6,7 +6,7 @@ import Room from "../components/Room";
 
 /* Information for needed for Spotify API */
 const CLIENT_ID = "01215731001a401abc7df88bba52c0d6";
-const REDIRECT_URI = "http://localhost:5173/";
+const REDIRECT_URI = "https://team-earth-demo-live.onrender.com:5173";
 const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
 const RESPONSE_TYPE = "token";
 
