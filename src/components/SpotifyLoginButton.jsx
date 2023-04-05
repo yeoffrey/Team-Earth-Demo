@@ -6,9 +6,9 @@ const REDIRECT_URI = "http://127.0.0.1:5173/"
 const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize"
 const RESPONSE_TYPE = "token"
 
+function SpotifyButton(props) {
 
-function SpotifyButton() {
-    const [token, setToken] = useState("")
+    const [token, setToken] = useState("");
 
     /*Method for getting access token*/
     useEffect(() => {
@@ -21,7 +21,7 @@ function SpotifyButton() {
             window.localStorage.setItem("token", token)
         }
         console.log(token)
-        setToken(token)
+        props.setToken(token)
     }, [])
 
     /*Method for logout*/
