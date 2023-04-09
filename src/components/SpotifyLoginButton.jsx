@@ -1,4 +1,10 @@
+/*
+This button contains some code that connects tot he spotify API. We didn't use this button
+and instead integrated the code into the main web page.
+*/
+
 import {useEffect, useState} from 'react';
+
 
 /* Information for needed for Spotify API */
 const CLIENT_ID = "c02e323203c744a4abbbcf5ad3e6285c"

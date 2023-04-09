@@ -6,10 +6,11 @@ import {
   RouterProvider,
 } from "react-router-dom";
 
+// Define the routes around the web app.
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Homepage />,
+    element: <Homepage />, // Load the homepage component.
   }
 ]);
 

@@ -1,3 +1,8 @@
+/*
+This code contains the functionality to connect to bluetooth through the browser.
+The feature was wizard of oz'd but the commented code should prompt the user to connect a device.
+*/
+
 import React, { useState } from 'react';
 
 function BluetoothButton() {

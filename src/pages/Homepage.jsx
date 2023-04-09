@@ -11,13 +11,23 @@ const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
 const RESPONSE_TYPE = "token";
 
 export default function Homepage() {
+  // --- All of these variables that are useState() will trigger the homepage ---
+  // --- to rerender when they change.                                        ---
+  
+  // This variable contains the spotify token that represents the user.
   const [token, setToken] = useState("");
+
+  // This variable contains an object whicih represents the user's data.
   const [user, setUser] = useState("");
+
+  // This variable contains an object which represents all the playlists pulled from the API.
   const [playlists, setPlaylists] = useState("");
 
+  // This function is called when the user clicks the profile button.
   const getUser = async (e) => {
     e.preventDefault();
 
+    // Axios is just a library for making requests to endpoints.
     const { data } = await axios.get("https://api.spotify.com/v1/me", {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -58,6 +68,7 @@ export default function Homepage() {
   //    <button type={"submit"}>Search</button>
   // </form>
 
+  // this function is called when the user clicks on the room button.
   const handleRoom = async (e) => {
     e.preventDefault();
 
@@ -74,6 +85,7 @@ export default function Homepage() {
     setPlaylists(data);
   };
 
+  // The render function.
   return (
     <div className="container">
       <h1>Hexisense</h1>

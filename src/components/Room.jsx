@@ -1,3 +1,8 @@
+/*
+This component renders a specific room on the app. It gets passed in prop containing
+the playlists associated with the room, and then maps those as HTML.
+*/
+
 export default function Room(props) {
   return props.playlists.map((playlist) => (
     <div key={playlist.id}>
